@@ -14,7 +14,7 @@ QUEUE_NAME = "test-orders.fifo"
 
 @pytest.fixture
 def aws_credentials():
-    os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+    os.environ["AWS_DEFAULT_REGION"] = "us-west-2"
     os.environ["AWS_ACCESS_KEY_ID"] = "testing"
     os.environ["AWS_SECRET_ACCESS_KEY"] = "testing"
 
