@@ -4,7 +4,7 @@ env:
   variables:
     AWS_DEFAULT_REGION: us-west-2
     IMAGE_REPO_NAME: e-commerce-cicd/users
-    SQLALCHEMY_TEST_DATABASE_URI: "postgresql+psycopg2://test_user:test_pass@localhost:5432/test_db"
+    SQLALCHEMY_TEST_DATABASE_URI: postgresql://test_user:test_pass@localhost:5432/test_db
 
 
 phases:
