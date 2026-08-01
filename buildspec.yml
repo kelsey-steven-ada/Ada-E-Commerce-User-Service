@@ -14,9 +14,14 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
-      - echo Starting test database... 
+      - echo Starting test database...
       - docker run -d --name test-db -e POSTGRES_DB=test_db -e POSTGRES_USER=test_user -e POSTGRES_PASSWORD=test_pass -p 5432:5432 public.ecr.aws/docker/library/postgres:15
-      - until docker exec test-db pg_isready -U test_user; do sleep 1; done 
+      - |
+        for i in $(seq 1 30); do
+          pg_isready -h 127.0.0.1 -p 5432 -U test_user && break
+          echo "Waiting for postgres on host port 5432... ($i)"
+          sleep 1
+        done
       - echo Test database ready
 
   build:
